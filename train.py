@@ -1,8 +1,15 @@
-import tensorflow as tf
 from data import train_images, train_labels, test_labels, test_images
+
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
 
 DLEN = len(train_images.data[0])
 DNUM = len(train_images.data)
+
+print('---------')
+print("正在训练......")
+print('---------')
 
 x = tf.placeholder(tf.float32, [None, DLEN])
 
@@ -14,9 +21,12 @@ y_ = tf.placeholder("float", [None, 10])
 
 cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 
+
+
 train_step = tf.train.GradientDescentOptimizer(0.001).minimize(cross_entropy)
 
 saver = tf.train.Saver()
+
 
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
@@ -26,9 +36,14 @@ for i in range(DNUM):
     batch_ys = [train_labels.data[i]]
     sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
-correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-print(sess.run(accuracy, feed_dict={x: test_images.data, y_: test_labels.data}))
+
+print('---------')
+print("准确度 ", end=': ')
+print(sess.run(accuracy, feed_dict={
+      x: test_images.data, y_: test_labels.data}))
+print('---------')
 
 saver.save(sess, 'model/model')
 
