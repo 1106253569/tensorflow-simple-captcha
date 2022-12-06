@@ -1,11 +1,11 @@
 # 使用 TensorFlow 识别简单图像验证码
 
 ## 使用
+
 ```bash
-pipenv install # 安装环境依赖
-pipenv run prepare # 生成测试数据标签
-pipenv run train # 训练模型
-pipenv run work < test.jpg # 识别 test.jpg
+chmod 744 pip_install.sh #授权
+./pip_install.sh # 安装环境依赖
+python prepare.py # 生成测试数据标签
+python train.py # 训练模型
+python test.py # 识别 test.jpg
 ```
-## 文章链接
-[使用 TensorFlow 识别简单图像验证码](https://purocean.github.io/tensorflow-simple-captcha-recognition/)
